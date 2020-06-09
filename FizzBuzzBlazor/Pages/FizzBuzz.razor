@@ -1,0 +1,94 @@
+﻿@page "/FizzBuzz"
+
+<h3>Fizz Buzz</h3>
+<p>Write a program that prints the numbers from 1 to 100.
+    But for multiples of three print "Fizz" instead of the number and
+    For the multiples of five print "Buzz".
+    For numbers which are multiples of both three and five print "FizzBuzz"</p>
+<div class="row">
+    <div class="col-3">Fizz Value:</div>
+    <div class="col"><input type="number" @bind="@FizzValue"/></div>
+</div>
+<div class="row">
+    <div class="col-3">Buzz Value:</div>
+    <div class="col"><input type="number" @bind="BuzzValue"/></div>
+</div>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary" @onclick="FizzBuzzIt">FizzBuzz It</button>
+    </div>
+</div>
+@if (buzzItems.Count() > 0)
+{
+<div class="row pt-5">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-sm">
+            <thead class="thead-dark">
+                <tr><th colspan="10">Results for FizzBuzz</th></tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < 100; i += 10)
+                {
+                    <tr>
+                        <td class="@buzzItems[i].ClassName">@buzzItems[i].Value</td>
+                        <td class="@buzzItems[i + 1].ClassName">@buzzItems[i + 1].Value</td>
+                        <td class="@buzzItems[i + 2].ClassName">@buzzItems[i + 2].Value</td>
+                        <td class="@buzzItems[i + 3].ClassName">@buzzItems[i + 3].Value</td>
+                        <td class="@buzzItems[i + 4].ClassName">@buzzItems[i + 4].Value</td>
+                        <td class="@buzzItems[i + 5].ClassName">@buzzItems[i + 5].Value</td>
+                        <td class="@buzzItems[i + 6].ClassName">@buzzItems[i + 6].Value</td>
+                        <td class="@buzzItems[i + 7].ClassName">@buzzItems[i + 7].Value</td>
+                        <td class="@buzzItems[i + 8].ClassName">@buzzItems[i + 8].Value</td>
+                        <td class="@buzzItems[i + 9].ClassName">@buzzItems[i + 9].Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+@code {
+    List<BuzzItem> buzzItems = new List<BuzzItem>();
+
+    private int FizzValue = 3;
+    private int BuzzValue = 5;
+
+    bool Fizz = false;
+    bool Buzz = false;
+
+    void FizzBuzzIt()
+    {
+        if(buzzItems.Count() > 0)
+        {
+            buzzItems.Clear();
+        }
+        for(var i = 1; i<=100; i++)
+        {
+            Fizz = (i % FizzValue == 0);
+            Buzz = (i % BuzzValue == 0);
+
+            if(Fizz && Buzz)
+            {
+                buzzItems.Add(new BuzzItem { Value = "FizzBuzz", ClassName = "fizzBuzz" });
+            }
+            else if (Fizz)
+            {
+                buzzItems.Add(new BuzzItem { Value = "Fizz", ClassName = "fizz" });
+            }
+            else if (Buzz)
+            {
+                buzzItems.Add(new BuzzItem { Value = "Buzz", ClassName = "buzz" });
+            }
+            else
+            {
+                buzzItems.Add(new BuzzItem { Value = i.ToString(), ClassName = "noBuzz" });
+            }
+        }
+    }
+    class BuzzItem
+    {
+        public string Value { get; set; }
+        public string ClassName { get; set; }
+
+    }
+}
